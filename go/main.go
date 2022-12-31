@@ -253,6 +253,10 @@ func main() {
 		return
 	}
 
+	go func() {
+		log.Fatal(http.ListenAndServe(":6060", nil))
+	}()
+
 	serverPort := fmt.Sprintf(":%v", getEnv("SERVER_APP_PORT", "3000"))
 	e.Logger.Fatal(e.Start(serverPort))
 }
