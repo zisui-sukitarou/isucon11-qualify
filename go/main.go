@@ -1022,7 +1022,7 @@ func getIsuConditionsFromDB(db *sqlx.DB, jiaIsuUUID string, endTime time.Time, c
 				"	AND `timestamp` < ?"+
 				"   AND `level` in (?)"+
 				"	ORDER BY `timestamp` DESC"+
-				"   LIMIT (?)",
+				"   LIMIT ?",
 			jiaIsuUUID, endTime, conditionLevel, limit,
 		)
 	} else {
@@ -1032,7 +1032,7 @@ func getIsuConditionsFromDB(db *sqlx.DB, jiaIsuUUID string, endTime time.Time, c
 				"	AND ? <= `timestamp`"+
 				"   AND `level` in (?)"+
 				"	ORDER BY `timestamp` DESC"+
-				"   LIMIT (?)",
+				"   LIMIT ?",
 			jiaIsuUUID, endTime, startTime, conditionLevel, limit,
 		)
 	}
