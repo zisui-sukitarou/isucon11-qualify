@@ -1018,7 +1018,7 @@ func getIsuConditionsFromDB(db *sqlx.DB, jiaIsuUUID string, endTime time.Time, c
 
 	if startTime.IsZero() {
 		query, params, err = sqlx.In(
-				"SELECT * FROM `isu_condition` WHERE `jia_isu_uuid` = ?"+
+			"SELECT * FROM `isu_condition` WHERE `jia_isu_uuid` = ?"+
 				"	AND `timestamp` < ?"+
 				"   AND `level` in (?)"+
 				"	ORDER BY `timestamp` DESC"+
@@ -1027,7 +1027,7 @@ func getIsuConditionsFromDB(db *sqlx.DB, jiaIsuUUID string, endTime time.Time, c
 		)
 	} else {
 		query, params, err = sqlx.In(
-				"SELECT * FROM `isu_condition` WHERE `jia_isu_uuid` = ?"+
+			"SELECT * FROM `isu_condition` WHERE `jia_isu_uuid` = ?"+
 				"	AND `timestamp` < ?"+
 				"	AND ? <= `timestamp`"+
 				"   AND `level` in (?)"+
@@ -1211,18 +1211,24 @@ func postIsuCondition(c echo.Context) error {
 			return c.String(http.StatusBadRequest, "bad request body")
 		}
 
+		level, err := calculateConditionLevel(cond.Condition)
+		if err != nil {
+			return c.String(http.StatusBadRequest, "bad request body")
+		}
+
 		isuConditions = append(isuConditions, IsuCondition{
 			JIAIsuUUID: jiaIsuUUID,
 			Timestamp:  timestamp,
 			IsSitting:  cond.IsSitting,
 			Condition:  cond.Condition,
 			Message:    cond.Message,
+			Level:      level,
 		})
 	}
 
 	query := "INSERT INTO `isu_condition`" +
-		"	(`jia_isu_uuid`, `timestamp`, `is_sitting`, `condition`, `message`)" +
-		"	VALUES (:jia_isu_uuid, :timestamp, :is_sitting, :condition, :message)"
+		"	(`jia_isu_uuid`, `timestamp`, `is_sitting`, `condition`, `message`, `level`)" +
+		"	VALUES (:jia_isu_uuid, :timestamp, :is_sitting, :condition, :message, :level)"
 
 	_, err = tx.NamedExec(query, isuConditions)
 	if err != nil {
