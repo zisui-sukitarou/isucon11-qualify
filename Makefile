@@ -60,8 +60,7 @@ alpload:
 	sudo alp ltsv --load /tmp/alp.dump --sort $(ALPSORT) --reverse -o count,method,uri,min,max,sum,avg,p99 -q
 
 # nginx
-.PHONY nginx
-
+.PHONY: nginx
 nginx:
 	sudo cp ./setting/etc/nginx/nginx.conf /etc/nginx/nginx.conf 
 	sudo systemctl restart nginx
