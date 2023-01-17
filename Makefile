@@ -3,6 +3,7 @@
 # リスタートを行わないと反映されないので注意
 .PHONY: build
 build:
+	source env.sh; \
 	cd /home/isucon/webapp/go; \
 	go build -o isucondition main.go; \
 	sudo systemctl restart isucondition.go.service;
@@ -13,7 +14,7 @@ build:
 pprof:
 	go tool pprof -http=0.0.0.0:8080 /home/isucon/webapp/go/isucondition http://localhost:6060/debug/pprof/profile
 
-# mydql関連
+# mydql関連（2台目からうつ）
 
 MYSQL_HOST="127.0.0.1"
 MYSQL_PORT=3306
@@ -38,7 +39,6 @@ slow-off:
 
 # mysqldumpslowを使ってslow wuery logを出力
 # オプションは合計時間ソート
-# このコマンドは 2 台目から叩かないと意味がない
 .PHONY: slow-show
 slow-show:
 	sudo mysqldumpslow -s t $(SLOW_LOG) | head -n 20
