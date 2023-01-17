@@ -16,7 +16,7 @@ pprof:
 
 # mydql関連（2台目からうつ）
 
-MYSQL_HOST="192.168.10.254"
+MYSQL_HOST="172.31.10.254"
 MYSQL_PORT=3306
 MYSQL_USER=isucon
 MYSQL_DBNAME=isucondition
