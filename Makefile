@@ -3,6 +3,7 @@
 # リスタートを行わないと反映されないので注意
 .PHONY: build
 build:
+	cp env.sh /home/isucon/env.sh 
 	cd /home/isucon/webapp/go; \
 	go build -o isucondition main.go; \
 	sudo systemctl restart isucondition.go.service;
