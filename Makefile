@@ -3,7 +3,6 @@
 # リスタートを行わないと反映されないので注意
 .PHONY: build
 build:
-	source env.sh; \
 	cd /home/isucon/webapp/go; \
 	go build -o isucondition main.go; \
 	sudo systemctl restart isucondition.go.service;
@@ -16,7 +15,7 @@ pprof:
 
 # mydql関連（2台目からうつ）
 
-MYSQL_HOST="127.0.0.1"
+MYSQL_HOST="192.168.10.254"
 MYSQL_PORT=3306
 MYSQL_USER=isucon
 MYSQL_DBNAME=isucondition
