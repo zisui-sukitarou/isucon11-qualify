@@ -1,5 +1,5 @@
 .PHONY: setup
-setup: webapp-setup nginx-setup
+setup: webapp-setup nginx-setup schema-setup
 
 .PHONY: webapp-setup
 webapp-setup:
