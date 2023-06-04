@@ -13,6 +13,10 @@ nginx-setup:
 	sudo cp setting/etc/nginx/nginx.conf /etc/nginx/nginx.conf; \
 	sudo systemctl restart nginx;
 
+.PHONY: schema-setup
+schema-setup:
+	cp sql/0_Schema.sql /home/isucon/webapp/sql/0_Schema.sql; \
+
 .PHONY: mysql-setup
 mysql-setup:
 	sudo cp mysqld.cnf /etc/mysql/mysql.conf.d/
