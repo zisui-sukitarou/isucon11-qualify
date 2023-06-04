@@ -1,11 +1,22 @@
+.PHONY: setup
+setup: webapp-setup nginx-setup mysql-setup
 
-# ビルドして、サービスのリスタートを行う
-# リスタートを行わないと反映されないので注意
-.PHONY: build
-build:
+.PHONY: webapp-setup
+webapp-setup:
+	cp go/main.go /home/isucon/webapp/go/main.go; \
 	cd /home/isucon/webapp/go; \
 	go build -o isucondition main.go; \
 	sudo systemctl restart isucondition.go.service;
+
+.PHONY: nginx-setup
+nginx-setup:
+	sudo cp setting/etc/nginx/nginx.conf /etc/nginx/nginx.conf; \
+	sudo systemctl restart nginx;
+
+.PHONY: mysql-setup
+mysql-setup:
+	sudo cp mysqld.cnf /etc/mysql/mysql.conf.d/
+	sudo systemctl restart mysql
 
 # pprofのデータをwebビューで見る
 # サーバー上で sudo apt install graphvizが必要
@@ -45,9 +56,8 @@ slow-show:
 
 
 # alp
-
 ALPSORT=sum
-ALPM="/api/isu/.+/icon,/api/isu/.+/graph,/api/isu/.+/condition,/api/isu/[-a-z0-9]+,/api/condition/[-a-z0-9]+,/api/catalog/.+,/api/condition\?,/isu/........-....-.+"
+ALPM="/api/isu/.+/icon,/api/isu/.+/graph,/api/isu/.+/condition,/api/isu/[-a-z0-9]+,/api/condition/[-a-z0-9]+,/api/catalog/.+,/api/condition\?,/isu/........-....-.+,/?jwt="
 OUTFORMAT=count,method,uri,min,max,sum,avg,p99
 .PHONY: alp
 alp:
